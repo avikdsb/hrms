@@ -1,0 +1,216 @@
+import React from "react";
+import { Box } from "@mui/material";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import { assetsData } from "../../constants/employeeData";
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      {/* <GridToolbarDensitySelector
+        slotProps={{ tooltip: { title: "Change density" } }}
+      /> */}
+      <Box sx={{ flexGrow: 1 }} />
+
+      <Box
+        sx={{
+          backgroundColor: "#111111",
+          fontSize: "1rem",
+          borderRadius: "5px",
+          overflow: "hidden",
+        }}
+      >
+        <GridToolbarExport
+          slotProps={{
+            tooltip: { title: "Export data" },
+            button: {
+              variant: "outlined",
+
+              sx: {
+                color: "#D7AE83",
+                fontSize: "12px",
+                fontWeight: "500",
+                border: "1px solid #111111",
+                borderRadius: "5px",
+                padding: "6px 12px",
+                "&:hover": {
+                  color: "#EDF6FF",
+                  border: "1px solid #111111",
+                },
+              },
+            },
+          }}
+        />
+      </Box>
+    </GridToolbarContainer>
+  );
+}
+
+const AssetsList = () => {
+  // Function to handle row selection manually via checkbox only
+  const handleCheckboxClick = (params, event) => {
+    if (event.target.closest(".MuiCheckbox-root")) {
+      return;
+    }
+    event.stopPropagation();
+  };
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 0.5,
+      cellClassName: "id-cell",
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "assetId",
+      headerName: "Asset ID",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "assetType",
+      headerName: "Asset Type",
+      flex: 1,
+      cellClassName: "name-cell",
+    },
+    {
+      field: "brandName",
+      headerName: "Brand",
+      flex: 1,
+      cellClassName: "name-cell",
+    },
+    {
+      field: "serialNumber",
+      headerName: "Serial Number",
+      type: "number",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "dop",
+      headerName: "Date of Purchase",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "assignedEmpId",
+      headerName: "Assigned Employee",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+  ];
+
+  return (
+    <Box>
+      <Box
+        m="10px 0 0 0"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+            borderRadius: "12px",
+            overflow: "hidden",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .name-cell": {
+            color: "#d7ae83",
+          },
+          "& .id-cell": {
+            color: "#d7ae83",
+          },
+          "& .role-cell": {
+            color: "#d7ae83",
+          },
+          "& .status-cell": {
+            color: "#d7ae83",
+          },
+          // Header Background Color
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#333333 !important",
+          },
+
+          // Header Title Color
+          "& .MuiDataGrid-columnHeaderTitle": {
+            color: "#111111 !important",
+          },
+
+          // Header Title Separator Color
+          "& .MuiDataGrid-columnSeparator": {
+            // visibility: "hidden",
+            color: "#999999 !important",
+          },
+
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: "#252525",
+            color: "#EDF6FF",
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTop: "none",
+            backgroundColor: "#EDF6FF",
+          },
+          "& .MuiDataGrid-toolbarContainer": {
+            display: "flex",
+            justifyContent: "flex-end",
+            backgroundColor: "#e6ccb1",
+            padding: "8px",
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: "#111111",
+          },
+
+          // Checkbox Color
+          "& .MuiCheckbox-root": {
+            color: "#e6ccb1",
+          },
+          // After Checked Color
+          "& .MuiCheckbox-root.Mui-checked": {
+            color: "#e6ccb1",
+          },
+          "& .MuiCheckbox-root.MuiCheckbox-indeterminate": {
+            color: "#e6ccb1",
+            // backgroundColor: "#000000",
+          },
+
+          // Remove focus outline
+          "& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus": {
+            outline: "none !important",
+          },
+          // Remove row selection highlight
+          "& .MuiDataGrid-row.Mui-selected": {
+            backgroundColor: "#505c66 !important",
+          },
+        }}
+      >
+        <DataGrid
+          rows={assetsData}
+          columns={columns}
+          checkboxSelection
+          onCellClick={handleCheckboxClick}
+          {...assetsData}
+          slots={{
+            toolbar: CustomToolbar,
+          }}
+        />
+      </Box>
+    </Box>
+  );
+};
+
+export default AssetsList;
